@@ -1,0 +1,75 @@
+package http
+
+import (
+	"encoding/json"
+	"errors"
+	"log/slog"
+	"net/http"
+
+	"github.com/isutare412/goasis/pkg/oapi"
+)
+
+func responseError(w http.ResponseWriter, r *http.Request, err error) {
+	var (
+		errMsg  = err.Error()
+		errCode = errorStatusCode(err)
+		errResp = oapi.ErrorResponse{
+			Message: &errMsg,
+		}
+	)
+
+	errRespBytes, err := json.Marshal(&errResp)
+	if err != nil {
+		slog.Error("failed to marshal error response", "error", err)
+		return
+	}
+
+	w.Header().Set("content-type", "application/json")
+	w.WriteHeader(errCode)
+	if _, err := w.Write(errRespBytes); err != nil {
+		slog.Error("failed to write error response body", "error", err)
+		return
+	}
+}
+
+func errorStatusCode(err error) int {
+	if code, ok := oapiErrorStatusCode(err); ok {
+		return code
+	}
+
+	return http.StatusInternalServerError
+}
+
+func oapiErrorStatusCode(err error) (code int, ok bool) {
+	var cookieErr *oapi.UnescapedCookieParamError
+	if errors.As(err, &cookieErr) {
+		return http.StatusBadRequest, true
+	}
+
+	var unmarshalErr *oapi.UnmarshalingParamError
+	if errors.As(err, &unmarshalErr) {
+		return http.StatusBadRequest, true
+	}
+
+	var requiredParamErr *oapi.RequiredParamError
+	if errors.As(err, &requiredParamErr) {
+		return http.StatusBadRequest, true
+	}
+
+	var requiredHeaderErr *oapi.RequiredHeaderError
+	if errors.As(err, &requiredHeaderErr) {
+		return http.StatusBadRequest, true
+	}
+
+	var invalidParamFormatErr *oapi.InvalidParamFormatError
+	if errors.As(err, &invalidParamFormatErr) {
+		return http.StatusBadRequest, true
+	}
+
+	var tooManyValuesForParamErr *oapi.TooManyValuesForParamError
+	if errors.As(err, &tooManyValuesForParamErr) {
+		return http.StatusBadRequest, true
+	}
+
+	return 0, false
+}
