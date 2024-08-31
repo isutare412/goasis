@@ -1,3 +1,8 @@
+# docker compose
+TARGET ?=
+ENV_FILE ?= .env
+COMPOSE_CMD = docker compose -f compose.yaml --env-file $(ENV_FILE)
+
 ####
 ##@ General
 ####
@@ -17,6 +22,26 @@ gen-oapi-client: oapi-codegen ## Generate OpenAPI client codes.
 .PHONY: gen-oapi-server
 gen-oapi-server: oapi-codegen ## Generate OpenAPI server codes.
 	$(OAPI_CODEGEN) --config=oapi-codegen-server.yaml ./api/openapi.yaml
+
+####
+##@ Docker Compose
+####
+
+.PHONY: compose-up
+compose-up: ## Run components.
+	$(COMPOSE_CMD) up -d $(TARGET)
+
+.PHONY: compose-down
+compose-down: ## Shutdown components.
+	$(COMPOSE_CMD) down $(TARGET)
+
+.PHONY: compose-ps
+compose-ps: ## Print running components.
+	$(COMPOSE_CMD) ps $(TARGET)
+
+.PHONY: compose-logs
+compose-logs: ## Tail logs of components.
+	$(COMPOSE_CMD) logs -f $(TARGET)
 
 ####
 ##@ Tools
