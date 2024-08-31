@@ -15,6 +15,10 @@ help: ## Display this help.
 ##@ Development
 ####
 
+.PHONY: test
+test: ## Run Go tests.
+	go test ./...
+
 .PHONY: gen-oapi-client
 gen-oapi-client: oapi-codegen ## Generate OpenAPI client codes.
 	$(OAPI_CODEGEN) --config=oapi-codegen-client.yaml ./api/openapi.yaml
