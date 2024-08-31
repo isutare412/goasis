@@ -57,13 +57,7 @@ paths:
       tags:
         - cafe
       parameters:
-        - name: cafeId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-            example: df6fdea1-10c3-474c-ae62-e63def80de0b
+        - $ref: "#/components/parameters/PathCafeId"
       responses:
         "200":
           description: Cafe information
@@ -80,13 +74,7 @@ paths:
       tags:
         - cafe
       parameters:
-        - name: cafeId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-            example: df6fdea1-10c3-474c-ae62-e63def80de0b
+        - $ref: "#/components/parameters/PathCafeId"
       requestBody:
         description: Data of cafe to be replaced
         required: true
@@ -110,13 +98,7 @@ paths:
       tags:
         - cafe
       parameters:
-        - name: cafeId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-            example: df6fdea1-10c3-474c-ae62-e63def80de0b
+        - $ref: "#/components/parameters/PathCafeId"
       responses:
         "200":
           description: OK
@@ -175,6 +157,17 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/CafeOutput"
+
+  parameters:
+
+    PathCafeId:
+      name: cafeId
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 412
 
   responses:
 

@@ -10,7 +10,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/oapi-codegen/runtime"
-	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 // CafeInput defines model for CafeInput.
@@ -36,6 +35,9 @@ type ErrorOutput struct {
 	Message *string `json:"message,omitempty"`
 }
 
+// PathCafeId defines model for PathCafeId.
+type PathCafeId = int64
+
 // ErrorResponse defines model for ErrorResponse.
 type ErrorResponse = ErrorOutput
 
@@ -55,13 +57,13 @@ type ServerInterface interface {
 	CreateCafe(w http.ResponseWriter, r *http.Request)
 
 	// (DELETE /api/v1/cafes/{cafeId})
-	DeleteCafe(w http.ResponseWriter, r *http.Request, cafeId openapi_types.UUID)
+	DeleteCafe(w http.ResponseWriter, r *http.Request, cafeId PathCafeId)
 
 	// (GET /api/v1/cafes/{cafeId})
-	GetCafe(w http.ResponseWriter, r *http.Request, cafeId openapi_types.UUID)
+	GetCafe(w http.ResponseWriter, r *http.Request, cafeId PathCafeId)
 
 	// (PUT /api/v1/cafes/{cafeId})
-	ReplaceCafe(w http.ResponseWriter, r *http.Request, cafeId openapi_types.UUID)
+	ReplaceCafe(w http.ResponseWriter, r *http.Request, cafeId PathCafeId)
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -110,7 +112,7 @@ func (siw *ServerInterfaceWrapper) DeleteCafe(w http.ResponseWriter, r *http.Req
 	var err error
 
 	// ------------- Path parameter "cafeId" -------------
-	var cafeId openapi_types.UUID
+	var cafeId PathCafeId
 
 	err = runtime.BindStyledParameterWithOptions("simple", "cafeId", mux.Vars(r)["cafeId"], &cafeId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
@@ -136,7 +138,7 @@ func (siw *ServerInterfaceWrapper) GetCafe(w http.ResponseWriter, r *http.Reques
 	var err error
 
 	// ------------- Path parameter "cafeId" -------------
-	var cafeId openapi_types.UUID
+	var cafeId PathCafeId
 
 	err = runtime.BindStyledParameterWithOptions("simple", "cafeId", mux.Vars(r)["cafeId"], &cafeId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {
@@ -162,7 +164,7 @@ func (siw *ServerInterfaceWrapper) ReplaceCafe(w http.ResponseWriter, r *http.Re
 	var err error
 
 	// ------------- Path parameter "cafeId" -------------
-	var cafeId openapi_types.UUID
+	var cafeId PathCafeId
 
 	err = runtime.BindStyledParameterWithOptions("simple", "cafeId", mux.Vars(r)["cafeId"], &cafeId, runtime.BindStyledParameterOptions{Explode: false, Required: true})
 	if err != nil {

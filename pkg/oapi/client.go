@@ -14,7 +14,6 @@ import (
 	"strings"
 
 	"github.com/oapi-codegen/runtime"
-	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 // RequestEditorFn  is the function signature for the RequestEditor callback function
@@ -99,15 +98,15 @@ type ClientInterface interface {
 	CreateCafe(ctx context.Context, body CreateCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeleteCafe request
-	DeleteCafe(ctx context.Context, cafeId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	DeleteCafe(ctx context.Context, cafeId PathCafeId, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetCafe request
-	GetCafe(ctx context.Context, cafeId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetCafe(ctx context.Context, cafeId PathCafeId, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ReplaceCafeWithBody request with any body
-	ReplaceCafeWithBody(ctx context.Context, cafeId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ReplaceCafeWithBody(ctx context.Context, cafeId PathCafeId, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	ReplaceCafe(ctx context.Context, cafeId openapi_types.UUID, body ReplaceCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	ReplaceCafe(ctx context.Context, cafeId PathCafeId, body ReplaceCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
 func (c *Client) ListCafes(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
@@ -146,7 +145,7 @@ func (c *Client) CreateCafe(ctx context.Context, body CreateCafeJSONRequestBody,
 	return c.Client.Do(req)
 }
 
-func (c *Client) DeleteCafe(ctx context.Context, cafeId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+func (c *Client) DeleteCafe(ctx context.Context, cafeId PathCafeId, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewDeleteCafeRequest(c.Server, cafeId)
 	if err != nil {
 		return nil, err
@@ -158,7 +157,7 @@ func (c *Client) DeleteCafe(ctx context.Context, cafeId openapi_types.UUID, reqE
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetCafe(ctx context.Context, cafeId openapi_types.UUID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+func (c *Client) GetCafe(ctx context.Context, cafeId PathCafeId, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetCafeRequest(c.Server, cafeId)
 	if err != nil {
 		return nil, err
@@ -170,7 +169,7 @@ func (c *Client) GetCafe(ctx context.Context, cafeId openapi_types.UUID, reqEdit
 	return c.Client.Do(req)
 }
 
-func (c *Client) ReplaceCafeWithBody(ctx context.Context, cafeId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+func (c *Client) ReplaceCafeWithBody(ctx context.Context, cafeId PathCafeId, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewReplaceCafeRequestWithBody(c.Server, cafeId, contentType, body)
 	if err != nil {
 		return nil, err
@@ -182,7 +181,7 @@ func (c *Client) ReplaceCafeWithBody(ctx context.Context, cafeId openapi_types.U
 	return c.Client.Do(req)
 }
 
-func (c *Client) ReplaceCafe(ctx context.Context, cafeId openapi_types.UUID, body ReplaceCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+func (c *Client) ReplaceCafe(ctx context.Context, cafeId PathCafeId, body ReplaceCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewReplaceCafeRequest(c.Server, cafeId, body)
 	if err != nil {
 		return nil, err
@@ -262,7 +261,7 @@ func NewCreateCafeRequestWithBody(server string, contentType string, body io.Rea
 }
 
 // NewDeleteCafeRequest generates requests for DeleteCafe
-func NewDeleteCafeRequest(server string, cafeId openapi_types.UUID) (*http.Request, error) {
+func NewDeleteCafeRequest(server string, cafeId PathCafeId) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -296,7 +295,7 @@ func NewDeleteCafeRequest(server string, cafeId openapi_types.UUID) (*http.Reque
 }
 
 // NewGetCafeRequest generates requests for GetCafe
-func NewGetCafeRequest(server string, cafeId openapi_types.UUID) (*http.Request, error) {
+func NewGetCafeRequest(server string, cafeId PathCafeId) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -330,7 +329,7 @@ func NewGetCafeRequest(server string, cafeId openapi_types.UUID) (*http.Request,
 }
 
 // NewReplaceCafeRequest calls the generic ReplaceCafe builder with application/json body
-func NewReplaceCafeRequest(server string, cafeId openapi_types.UUID, body ReplaceCafeJSONRequestBody) (*http.Request, error) {
+func NewReplaceCafeRequest(server string, cafeId PathCafeId, body ReplaceCafeJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
@@ -341,7 +340,7 @@ func NewReplaceCafeRequest(server string, cafeId openapi_types.UUID, body Replac
 }
 
 // NewReplaceCafeRequestWithBody generates requests for ReplaceCafe with any type of body
-func NewReplaceCafeRequestWithBody(server string, cafeId openapi_types.UUID, contentType string, body io.Reader) (*http.Request, error) {
+func NewReplaceCafeRequestWithBody(server string, cafeId PathCafeId, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -428,15 +427,15 @@ type ClientWithResponsesInterface interface {
 	CreateCafeWithResponse(ctx context.Context, body CreateCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateCafeResponse, error)
 
 	// DeleteCafeWithResponse request
-	DeleteCafeWithResponse(ctx context.Context, cafeId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteCafeResponse, error)
+	DeleteCafeWithResponse(ctx context.Context, cafeId PathCafeId, reqEditors ...RequestEditorFn) (*DeleteCafeResponse, error)
 
 	// GetCafeWithResponse request
-	GetCafeWithResponse(ctx context.Context, cafeId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetCafeResponse, error)
+	GetCafeWithResponse(ctx context.Context, cafeId PathCafeId, reqEditors ...RequestEditorFn) (*GetCafeResponse, error)
 
 	// ReplaceCafeWithBodyWithResponse request with any body
-	ReplaceCafeWithBodyWithResponse(ctx context.Context, cafeId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ReplaceCafeResponse, error)
+	ReplaceCafeWithBodyWithResponse(ctx context.Context, cafeId PathCafeId, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ReplaceCafeResponse, error)
 
-	ReplaceCafeWithResponse(ctx context.Context, cafeId openapi_types.UUID, body ReplaceCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*ReplaceCafeResponse, error)
+	ReplaceCafeWithResponse(ctx context.Context, cafeId PathCafeId, body ReplaceCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*ReplaceCafeResponse, error)
 }
 
 type ListCafesResponse struct {
@@ -582,7 +581,7 @@ func (c *ClientWithResponses) CreateCafeWithResponse(ctx context.Context, body C
 }
 
 // DeleteCafeWithResponse request returning *DeleteCafeResponse
-func (c *ClientWithResponses) DeleteCafeWithResponse(ctx context.Context, cafeId openapi_types.UUID, reqEditors ...RequestEditorFn) (*DeleteCafeResponse, error) {
+func (c *ClientWithResponses) DeleteCafeWithResponse(ctx context.Context, cafeId PathCafeId, reqEditors ...RequestEditorFn) (*DeleteCafeResponse, error) {
 	rsp, err := c.DeleteCafe(ctx, cafeId, reqEditors...)
 	if err != nil {
 		return nil, err
@@ -591,7 +590,7 @@ func (c *ClientWithResponses) DeleteCafeWithResponse(ctx context.Context, cafeId
 }
 
 // GetCafeWithResponse request returning *GetCafeResponse
-func (c *ClientWithResponses) GetCafeWithResponse(ctx context.Context, cafeId openapi_types.UUID, reqEditors ...RequestEditorFn) (*GetCafeResponse, error) {
+func (c *ClientWithResponses) GetCafeWithResponse(ctx context.Context, cafeId PathCafeId, reqEditors ...RequestEditorFn) (*GetCafeResponse, error) {
 	rsp, err := c.GetCafe(ctx, cafeId, reqEditors...)
 	if err != nil {
 		return nil, err
@@ -600,7 +599,7 @@ func (c *ClientWithResponses) GetCafeWithResponse(ctx context.Context, cafeId op
 }
 
 // ReplaceCafeWithBodyWithResponse request with arbitrary body returning *ReplaceCafeResponse
-func (c *ClientWithResponses) ReplaceCafeWithBodyWithResponse(ctx context.Context, cafeId openapi_types.UUID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ReplaceCafeResponse, error) {
+func (c *ClientWithResponses) ReplaceCafeWithBodyWithResponse(ctx context.Context, cafeId PathCafeId, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ReplaceCafeResponse, error) {
 	rsp, err := c.ReplaceCafeWithBody(ctx, cafeId, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
@@ -608,7 +607,7 @@ func (c *ClientWithResponses) ReplaceCafeWithBodyWithResponse(ctx context.Contex
 	return ParseReplaceCafeResponse(rsp)
 }
 
-func (c *ClientWithResponses) ReplaceCafeWithResponse(ctx context.Context, cafeId openapi_types.UUID, body ReplaceCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*ReplaceCafeResponse, error) {
+func (c *ClientWithResponses) ReplaceCafeWithResponse(ctx context.Context, cafeId PathCafeId, body ReplaceCafeJSONRequestBody, reqEditors ...RequestEditorFn) (*ReplaceCafeResponse, error) {
 	rsp, err := c.ReplaceCafe(ctx, cafeId, body, reqEditors...)
 	if err != nil {
 		return nil, err
