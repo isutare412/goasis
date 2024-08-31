@@ -152,21 +152,24 @@ components:
     CafeOutput:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         name:
           type: string
         location:
           type: string
-        createTime:
+        createdAt:
           type: string
           format: date-time
-        updateTime:
+        updatedAt:
           type: string
           format: date-time
       example:
         name: CLOUDSB
         location: 서울 강남구 논현로28길 10 1층
-        createTime: 2017-07-21T17:32:28Z
-        updateTime: 2017-07-21T17:32:28Z
+        createdAt: 2017-07-21T17:32:28Z
+        updatedAt: 2017-07-21T17:32:28Z
 
     CafeOutputList:
       type: array
