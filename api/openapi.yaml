@@ -1,0 +1,183 @@
+openapi: '3.0.3'
+
+info:
+  title: Simple Cafe Stores
+  version: "0.1.0"
+
+servers:
+  - url: /
+
+paths:
+
+  /api/v1/cafes:
+    get:
+      operationId: list-cafes
+      description: List cafes
+      tags:
+        - cafe
+      responses:
+        "200":
+          description: List of cafes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cafes:
+                    $ref: "#/components/schemas/CafeOutputList"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+    post:
+      operationId: create-cafe
+      description: Create cafe
+      tags:
+        - cafe
+      requestBody:
+        description: Data to create cafe
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CafeInput"
+      responses:
+        "200":
+          description: Cafe information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CafeOutput"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /api/v1/cafes/{cafeId}:
+    get:
+      operationId: get-cafe
+      description: Get cafe
+      tags:
+        - cafe
+      parameters:
+        - name: cafeId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: df6fdea1-10c3-474c-ae62-e63def80de0b
+      responses:
+        "200":
+          description: Cafe information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CafeOutput"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+    put:
+      operationId: replace-cafe
+      description: Replace cafe
+      tags:
+        - cafe
+      parameters:
+        - name: cafeId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: df6fdea1-10c3-474c-ae62-e63def80de0b
+      requestBody:
+        description: Data of cafe to be replaced
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CafeInput"
+      responses:
+        "200":
+          description: Cafe information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CafeOutput"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+    delete:
+      operationId: delete-cafe
+      description: Delete cafe
+      tags:
+        - cafe
+      parameters:
+        - name: cafeId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: df6fdea1-10c3-474c-ae62-e63def80de0b
+      responses:
+        "200":
+          description: OK
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+components:
+
+  schemas:
+
+    ErrorOutput:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: some error occurred during operation
+
+    CafeInput:
+      type: object
+      required:
+        - name
+        - location
+      properties:
+        name:
+          type: string
+        location:
+          type: string
+      example:
+        name: CLOUDSB
+        location: 서울 강남구 논현로28길 10 1층
+
+    CafeOutput:
+      type: object
+      properties:
+        name:
+          type: string
+        location:
+          type: string
+        createTime:
+          type: string
+          format: date-time
+        updateTime:
+          type: string
+          format: date-time
+      example:
+        name: CLOUDSB
+        location: 서울 강남구 논현로28길 10 1층
+        createTime: 2017-07-21T17:32:28Z
+        updateTime: 2017-07-21T17:32:28Z
+
+    CafeOutputList:
+      type: array
+      items:
+        $ref: "#/components/schemas/CafeOutput"
+
+  responses:
+
+    ErrorResponse:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorOutput"
