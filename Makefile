@@ -27,6 +27,10 @@ gen-oapi-client: oapi-codegen ## Generate OpenAPI client codes.
 gen-oapi-server: oapi-codegen ## Generate OpenAPI server codes.
 	$(OAPI_CODEGEN) --config=oapi-codegen-server.yaml ./api/openapi.yaml
 
+.PHONY: gen-mocks
+gen-mocks: mockery ## Generate mocks for tests.
+	$(MOCKERY) --config .mockery.yaml
+
 ####
 ##@ Docker Compose
 ####
@@ -61,9 +65,18 @@ LOCALPATH ?= $(LOCALBIN):$(PATH)
 
 # Tool Binaries
 OAPI_CODEGEN ?= $(LOCALBIN)/oapi-codegen
+OAPI_CODEGEN_VERSION ?= v2.3.0
+MOCKERY ?= $(LOCALBIN)/mockery
+MOCKERY_VERSION ?= v2.45.0
 
 .PHONY: oapi-codegen
 oapi-codegen: $(OAPI_CODEGEN) ## Install protoc-gen-go locally if necessary.
 $(OAPI_CODEGEN): $(LOCALBIN)
 	@test -s $(OAPI_CODEGEN) || \
-	GOBIN=$(LOCALBIN) go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest
+	GOBIN=$(LOCALBIN) go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@$(OAPI_CODEGEN_VERSION)
+
+.PHONY: mockery
+mockery: $(MOCKERY) ## Install mockery locally if necessary.
+$(MOCKERY): $(LOCALBIN)
+	@test -s $(MOCKERY) || \
+	GOBIN=$(LOCALBIN) go install github.com/vektra/mockery/v2@$(MOCKERY_VERSION)

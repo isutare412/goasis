@@ -1,0 +1,10 @@
+with-expecter: true
+packages:
+  github.com/isutare412/goasis/internal/core/port:
+    config:
+      dir: "{{.InterfaceDir}}/mock{{.PackageName}}"
+      outpkg: "mock{{.PackageName}}"
+    interfaces:
+      UserRepository:
+      CafeRepository:
+      ReviewRepository:
