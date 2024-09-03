@@ -24,21 +24,25 @@ func NewCafeRepository(client *Client) *CafeRepository {
 func (r *CafeRepository) CreateCafe(ctx context.Context, cafe *model.Cafe) (created *model.Cafe, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	if err := db.Create(cafe).Error; err != nil {
+	cafeCreated := new(model.Cafe)
+	*cafeCreated = *cafe
+	if err := db.Create(cafeCreated).Error; err != nil {
 		return nil, err
 	}
 
-	return cafe, nil
+	return cafeCreated, nil
 }
 
 func (r *CafeRepository) UpdateCafe(ctx context.Context, cafe *model.Cafe) (updated *model.Cafe, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	if err := db.Save(cafe).Error; err != nil {
+	cafeUpdated := new(model.Cafe)
+	*cafeUpdated = *cafe
+	if err := db.Save(cafeUpdated).Error; err != nil {
 		return nil, err
 	}
 
-	return cafe, nil
+	return cafeUpdated, nil
 }
 
 func (r *CafeRepository) DeleteCafe(ctx context.Context, id int64) error {
@@ -53,8 +57,8 @@ func (r *CafeRepository) DeleteCafe(ctx context.Context, id int64) error {
 func (r *CafeRepository) GetCafe(ctx context.Context, id int64) (*model.Cafe, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	var cafe model.Cafe
-	err := db.First(&cafe, id).Error
+	cafe := new(model.Cafe)
+	err := db.First(cafe, id).Error
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
 		return nil, pkgerr.CodeError{
@@ -66,7 +70,7 @@ func (r *CafeRepository) GetCafe(ctx context.Context, id int64) (*model.Cafe, er
 		return nil, err
 	}
 
-	return &cafe, nil
+	return cafe, nil
 }
 
 func (r *CafeRepository) ListCafes(ctx context.Context) ([]*model.Cafe, error) {

@@ -24,21 +24,25 @@ func NewReviewRepository(client *Client) *ReviewRepository {
 func (r *ReviewRepository) CreateReview(ctx context.Context, review *model.Review) (created *model.Review, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	if err := db.Create(review).Error; err != nil {
+	reviewCreated := new(model.Review)
+	*reviewCreated = *review
+	if err := db.Create(reviewCreated).Error; err != nil {
 		return nil, err
 	}
 
-	return review, nil
+	return reviewCreated, nil
 }
 
 func (r *ReviewRepository) UpdateReview(ctx context.Context, review *model.Review) (updated *model.Review, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	if err := db.Save(review).Error; err != nil {
+	reviewUpdated := new(model.Review)
+	*reviewUpdated = *review
+	if err := db.Save(reviewUpdated).Error; err != nil {
 		return nil, err
 	}
 
-	return review, nil
+	return reviewUpdated, nil
 }
 
 func (r *ReviewRepository) DeleteReview(ctx context.Context, id int64) error {
@@ -53,9 +57,9 @@ func (r *ReviewRepository) DeleteReview(ctx context.Context, id int64) error {
 func (r *ReviewRepository) GetReview(ctx context.Context, id int64) (*model.Review, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	var review model.Review
+	review := new(model.Review)
 	err := db.
-		First(&review, id).Error
+		First(review, id).Error
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
 		return nil, pkgerr.CodeError{
@@ -67,16 +71,16 @@ func (r *ReviewRepository) GetReview(ctx context.Context, id int64) (*model.Revi
 		return nil, err
 	}
 
-	return &review, nil
+	return review, nil
 }
 
 func (r *ReviewRepository) GetReviewPreload(ctx context.Context, id int64) (*model.Review, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	var review model.Review
+	review := new(model.Review)
 	err := db.
 		Joins("User").
-		First(&review, id).Error
+		First(review, id).Error
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
 		return nil, pkgerr.CodeError{
@@ -88,7 +92,7 @@ func (r *ReviewRepository) GetReviewPreload(ctx context.Context, id int64) (*mod
 		return nil, err
 	}
 
-	return &review, nil
+	return review, nil
 }
 
 func (r *ReviewRepository) ListReviewsOfCafe(ctx context.Context, cafeID int64) ([]*model.Review, error) {

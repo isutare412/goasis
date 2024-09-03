@@ -24,21 +24,25 @@ func NewUserRepository(client *Client) *UserRepository {
 func (r *UserRepository) CreateUser(ctx context.Context, user *model.User) (created *model.User, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	if err := db.Create(user).Error; err != nil {
+	userCreated := new(model.User)
+	*userCreated = *user
+	if err := db.Create(userCreated).Error; err != nil {
 		return nil, err
 	}
 
-	return user, nil
+	return userCreated, nil
 }
 
 func (r *UserRepository) UpdateUser(ctx context.Context, user *model.User) (updated *model.User, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	if err := db.Save(user).Error; err != nil {
+	userUpdated := new(model.User)
+	*userUpdated = *user
+	if err := db.Save(userUpdated).Error; err != nil {
 		return nil, err
 	}
 
-	return user, nil
+	return userUpdated, nil
 }
 
 func (r *UserRepository) DeleteUser(ctx context.Context, id int64) error {
@@ -53,7 +57,7 @@ func (r *UserRepository) DeleteUser(ctx context.Context, id int64) error {
 func (r *UserRepository) GetUser(ctx context.Context, id int64) (*model.User, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	var user model.User
+	user := new(model.User)
 	err := db.First(&user, id).Error
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
@@ -66,5 +70,5 @@ func (r *UserRepository) GetUser(ctx context.Context, id int64) (*model.User, er
 		return nil, err
 	}
 
-	return &user, nil
+	return user, nil
 }
