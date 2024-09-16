@@ -4,7 +4,10 @@ go 1.23.0
 
 require (
 	github.com/gorilla/mux v1.8.1
+	github.com/lmittmann/tint v1.0.5
+	github.com/mattn/go-isatty v0.0.20
 	github.com/oapi-codegen/runtime v1.1.1
+	github.com/orandin/slog-gorm v1.4.0
 	github.com/stretchr/testify v1.9.0
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/gorm v1.25.11
@@ -26,6 +29,7 @@ require (
 	github.com/stretchr/objx v0.5.2 // indirect
 	golang.org/x/crypto v0.17.0 // indirect
 	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
 	golang.org/x/text v0.17.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

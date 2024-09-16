@@ -8,9 +8,9 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 
 	"github.com/isutare412/goasis/internal/core/model"
+	"github.com/isutare412/goasis/internal/log"
 )
 
 type Client struct {
@@ -23,7 +23,7 @@ func NewClient(cfg Config) (*Client, error) {
 		&gorm.Config{
 			DisableForeignKeyConstraintWhenMigrating: true,
 			TranslateError:                           true,
-			Logger:                                   logger.Discard,
+			Logger:                                   log.NewGORMLogger(cfg.SlowQueryThreshold),
 		})
 	if err != nil {
 		return nil, fmt.Errorf("opening gorm db: %w", err)
@@ -45,7 +45,10 @@ func (c *Client) Initialize(ctx context.Context) error {
 	return nil
 }
 
-func (c *Client) BeginTx(ctx context.Context, opts ...*sql.TxOptions) (ctxWithTx context.Context, commit, rollback func() error) {
+func (c *Client) BeginTx(
+	ctx context.Context,
+	opts ...*sql.TxOptions,
+) (ctxWithTx context.Context, commit, rollback func() error) {
 	if _, ok := extractTransaction(ctx); ok {
 		panic("nested transaction detected")
 	}
