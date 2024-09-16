@@ -53,3 +53,13 @@ func (e CodeError) Error() string {
 func (e CodeError) Unwrap() error {
 	return e.Err
 }
+
+// AsCodeError converts err into [CodeError] if err wrapped [CodeError] with
+// boolean true. Otherwise, it will return false.
+func AsCodeError(err error) (CodeError, bool) {
+	var cerr CodeError
+	if errors.As(err, &cerr) {
+		return cerr, true
+	}
+	return CodeError{}, false
+}

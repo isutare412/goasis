@@ -6,13 +6,14 @@ import (
 	"log/slog"
 	"net/http"
 
+	"github.com/isutare412/goasis/internal/pkgerr"
 	"github.com/isutare412/goasis/pkg/oapi"
 )
 
 func responseError(w http.ResponseWriter, r *http.Request, err error) {
 	var (
-		errMsg  = err.Error()
 		errCode = errorStatusCode(err)
+		errMsg  = clientErrorMessage(err, errCode)
 		errResp = oapi.ErrorResponse{
 			Message: &errMsg,
 		}
@@ -30,6 +31,14 @@ func responseError(w http.ResponseWriter, r *http.Request, err error) {
 		slog.Error("failed to write error response body", "error", err)
 		return
 	}
+}
+
+func clientErrorMessage(err error, statusCode int) string {
+	if cerr, ok := pkgerr.AsCodeError(err); ok && cerr.ClientMsg != "" {
+		return cerr.ClientMsg
+	}
+
+	return http.StatusText(statusCode)
 }
 
 func errorStatusCode(err error) int {

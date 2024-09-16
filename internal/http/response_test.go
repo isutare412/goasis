@@ -9,6 +9,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/isutare412/goasis/internal/pkgerr"
 	"github.com/isutare412/goasis/pkg/oapi"
 )
 
@@ -81,6 +82,37 @@ func Test_responseError(t *testing.T) {
 				},
 			},
 			wantStatusCode: http.StatusBadRequest,
+		},
+		{
+			name: "error message is hidden if error does not contain client message",
+			args: args{
+				w: httptest.NewRecorder(),
+				err: &oapi.RequiredHeaderError{
+					ParamName: "x-test-header",
+					Err: pkgerr.CodeError{
+						Code: pkgerr.CodeInvalidInput,
+						Err:  fmt.Errorf("test error"),
+					},
+				},
+			},
+			wantMessageRegex: `"message":"Bad Request"`,
+			wantStatusCode:   http.StatusBadRequest,
+		},
+		{
+			name: "client error message is unwrapped",
+			args: args{
+				w: httptest.NewRecorder(),
+				err: &oapi.RequiredHeaderError{
+					ParamName: "x-test-header",
+					Err: pkgerr.CodeError{
+						Code:      pkgerr.CodeInvalidInput,
+						Err:       fmt.Errorf("test error"),
+						ClientMsg: "error message for client",
+					},
+				},
+			},
+			wantMessageRegex: `"message":"error message for client"`,
+			wantStatusCode:   http.StatusBadRequest,
 		},
 	}
 
