@@ -15,6 +15,10 @@ help: ## Display this help.
 ##@ Development
 ####
 
+.PHONY: run
+run: ## Run application.
+	go run ./cmd/...
+
 .PHONY: test
 test: ## Run Go tests.
 	go test ./...
