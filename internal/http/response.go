@@ -12,6 +12,7 @@ import (
 
 func responseError(w http.ResponseWriter, r *http.Request, err error) {
 	var (
+		ctx     = r.Context()
 		errCode = errorStatusCode(err)
 		errMsg  = clientErrorMessage(err, errCode)
 		errResp = oapi.ErrorResponse{
@@ -21,14 +22,14 @@ func responseError(w http.ResponseWriter, r *http.Request, err error) {
 
 	errRespBytes, err := json.Marshal(&errResp)
 	if err != nil {
-		slog.Error("failed to marshal error response", "error", err)
+		slog.ErrorContext(ctx, "failed to marshal error response", "error", err)
 		return
 	}
 
 	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(errCode)
 	if _, err := w.Write(errRespBytes); err != nil {
-		slog.Error("failed to write error response body", "error", err)
+		slog.ErrorContext(ctx, "failed to write error response body", "error", err)
 		return
 	}
 }

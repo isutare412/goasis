@@ -15,8 +15,11 @@ import (
 func recoverPanic(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
-			if r := recover(); r != nil {
-				slog.Error("http handler panicked", "recover", r, "stackTrace", string(debug.Stack()))
+			if v := recover(); v != nil {
+				slog.ErrorContext(r.Context(),
+					"http handler panicked",
+					"recover", v,
+					"stackTrace", string(debug.Stack()))
 				w.WriteHeader(http.StatusInternalServerError)
 				return
 			}
