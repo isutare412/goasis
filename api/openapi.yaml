@@ -119,14 +119,14 @@ components:
 
     CafeInput:
       type: object
-      required:
-        - name
-        - location
       properties:
         name:
           type: string
         location:
           type: string
+      required:
+        - name
+        - location
       example:
         name: CLOUDSB
         location: 서울 강남구 논현로28길 10 1층
@@ -147,6 +147,12 @@ components:
         updatedAt:
           type: string
           format: date-time
+      required:
+        - id
+        - name
+        - location
+        - createdAt
+        - updatedAt
       example:
         name: CLOUDSB
         location: 서울 강남구 논현로28길 10 1층

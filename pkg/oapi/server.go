@@ -20,11 +20,11 @@ type CafeInput struct {
 
 // CafeOutput defines model for CafeOutput.
 type CafeOutput struct {
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	Id        *int64     `json:"id,omitempty"`
-	Location  *string    `json:"location,omitempty"`
-	Name      *string    `json:"name,omitempty"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	CreatedAt time.Time `json:"createdAt"`
+	Id        int64     `json:"id"`
+	Location  string    `json:"location"`
+	Name      string    `json:"name"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // CafeOutputList defines model for CafeOutputList.
