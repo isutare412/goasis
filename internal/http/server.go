@@ -20,7 +20,14 @@ func NewServer(cfg Config) *Server {
 	handler := oapi.HandlerWithOptions(
 		&handler{},
 		oapi.GorillaServerOptions{
-			BaseRouter:       r,
+			BaseRouter: r,
+			Middlewares: []oapi.MiddlewareFunc{
+				accessLog,
+				wrapResponseWriter,
+				issueRequestID,
+				insertContextBag,
+				recoverPanic,
+			},
 			ErrorHandlerFunc: responseError,
 		})
 

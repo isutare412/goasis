@@ -11,6 +11,6 @@ func NewGORMLogger(slowQueryThreshold time.Duration) logger.Interface {
 	return sloggorm.New(
 		sloggorm.WithSlowThreshold(slowQueryThreshold),
 		// sloggorm.SetLogLevel(sloggorm.DefaultLogType, slog.LevelDebug),
-		sloggorm.WithTraceAll(),
+		// sloggorm.WithTraceAll(),
 	)
 }
