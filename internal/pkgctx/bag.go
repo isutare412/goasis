@@ -9,12 +9,13 @@ type Bag struct {
 	RequestID string
 }
 
-// WithBag inserts new [*Bag] into ctx and returns the new bag-inserted ctx.
+// WithBag inserts new [*Bag] into ctx and returns the new bag-inserted context.
 func WithBag(ctx context.Context) context.Context {
 	return context.WithValue(ctx, ctxKeyBag{}, &Bag{})
 }
 
-// GetBag returns [*Bag] from ctx with true if exists. Otherwise, nil with true.
+// GetBag returns [*Bag] from ctx with true if exists. Otherwise, nil with
+// false.
 func GetBag(ctx context.Context) (*Bag, bool) {
 	bag, ok := ctx.Value(ctxKeyBag{}).(*Bag)
 	return bag, ok
