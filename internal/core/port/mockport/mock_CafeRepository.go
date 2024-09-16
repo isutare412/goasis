@@ -23,27 +23,25 @@ func (_m *MockCafeRepository) EXPECT() *MockCafeRepository_Expecter {
 }
 
 // CreateCafe provides a mock function with given fields: _a0, _a1
-func (_m *MockCafeRepository) CreateCafe(_a0 context.Context, _a1 *model.Cafe) (*model.Cafe, error) {
+func (_m *MockCafeRepository) CreateCafe(_a0 context.Context, _a1 model.Cafe) (model.Cafe, error) {
 	ret := _m.Called(_a0, _a1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for CreateCafe")
 	}
 
-	var r0 *model.Cafe
+	var r0 model.Cafe
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *model.Cafe) (*model.Cafe, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.Cafe) (model.Cafe, error)); ok {
 		return rf(_a0, _a1)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, *model.Cafe) *model.Cafe); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.Cafe) model.Cafe); ok {
 		r0 = rf(_a0, _a1)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Cafe)
-		}
+		r0 = ret.Get(0).(model.Cafe)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *model.Cafe) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, model.Cafe) error); ok {
 		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
@@ -59,24 +57,24 @@ type MockCafeRepository_CreateCafe_Call struct {
 
 // CreateCafe is a helper method to define mock.On call
 //   - _a0 context.Context
-//   - _a1 *model.Cafe
+//   - _a1 model.Cafe
 func (_e *MockCafeRepository_Expecter) CreateCafe(_a0 interface{}, _a1 interface{}) *MockCafeRepository_CreateCafe_Call {
 	return &MockCafeRepository_CreateCafe_Call{Call: _e.mock.On("CreateCafe", _a0, _a1)}
 }
 
-func (_c *MockCafeRepository_CreateCafe_Call) Run(run func(_a0 context.Context, _a1 *model.Cafe)) *MockCafeRepository_CreateCafe_Call {
+func (_c *MockCafeRepository_CreateCafe_Call) Run(run func(_a0 context.Context, _a1 model.Cafe)) *MockCafeRepository_CreateCafe_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(*model.Cafe))
+		run(args[0].(context.Context), args[1].(model.Cafe))
 	})
 	return _c
 }
 
-func (_c *MockCafeRepository_CreateCafe_Call) Return(created *model.Cafe, err error) *MockCafeRepository_CreateCafe_Call {
+func (_c *MockCafeRepository_CreateCafe_Call) Return(created model.Cafe, err error) *MockCafeRepository_CreateCafe_Call {
 	_c.Call.Return(created, err)
 	return _c
 }
 
-func (_c *MockCafeRepository_CreateCafe_Call) RunAndReturn(run func(context.Context, *model.Cafe) (*model.Cafe, error)) *MockCafeRepository_CreateCafe_Call {
+func (_c *MockCafeRepository_CreateCafe_Call) RunAndReturn(run func(context.Context, model.Cafe) (model.Cafe, error)) *MockCafeRepository_CreateCafe_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -129,24 +127,22 @@ func (_c *MockCafeRepository_DeleteCafe_Call) RunAndReturn(run func(context.Cont
 }
 
 // GetCafe provides a mock function with given fields: ctx, id
-func (_m *MockCafeRepository) GetCafe(ctx context.Context, id int64) (*model.Cafe, error) {
+func (_m *MockCafeRepository) GetCafe(ctx context.Context, id int64) (model.Cafe, error) {
 	ret := _m.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetCafe")
 	}
 
-	var r0 *model.Cafe
+	var r0 model.Cafe
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) (*model.Cafe, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) (model.Cafe, error)); ok {
 		return rf(ctx, id)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) *model.Cafe); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) model.Cafe); ok {
 		r0 = rf(ctx, id)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Cafe)
-		}
+		r0 = ret.Get(0).(model.Cafe)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
@@ -177,34 +173,34 @@ func (_c *MockCafeRepository_GetCafe_Call) Run(run func(ctx context.Context, id 
 	return _c
 }
 
-func (_c *MockCafeRepository_GetCafe_Call) Return(_a0 *model.Cafe, _a1 error) *MockCafeRepository_GetCafe_Call {
+func (_c *MockCafeRepository_GetCafe_Call) Return(_a0 model.Cafe, _a1 error) *MockCafeRepository_GetCafe_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockCafeRepository_GetCafe_Call) RunAndReturn(run func(context.Context, int64) (*model.Cafe, error)) *MockCafeRepository_GetCafe_Call {
+func (_c *MockCafeRepository_GetCafe_Call) RunAndReturn(run func(context.Context, int64) (model.Cafe, error)) *MockCafeRepository_GetCafe_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ListCafes provides a mock function with given fields: _a0
-func (_m *MockCafeRepository) ListCafes(_a0 context.Context) ([]*model.Cafe, error) {
+func (_m *MockCafeRepository) ListCafes(_a0 context.Context) ([]model.Cafe, error) {
 	ret := _m.Called(_a0)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ListCafes")
 	}
 
-	var r0 []*model.Cafe
+	var r0 []model.Cafe
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context) ([]*model.Cafe, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context) ([]model.Cafe, error)); ok {
 		return rf(_a0)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context) []*model.Cafe); ok {
+	if rf, ok := ret.Get(0).(func(context.Context) []model.Cafe); ok {
 		r0 = rf(_a0)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]*model.Cafe)
+			r0 = ret.Get(0).([]model.Cafe)
 		}
 	}
 
@@ -235,38 +231,36 @@ func (_c *MockCafeRepository_ListCafes_Call) Run(run func(_a0 context.Context)) 
 	return _c
 }
 
-func (_c *MockCafeRepository_ListCafes_Call) Return(_a0 []*model.Cafe, _a1 error) *MockCafeRepository_ListCafes_Call {
+func (_c *MockCafeRepository_ListCafes_Call) Return(_a0 []model.Cafe, _a1 error) *MockCafeRepository_ListCafes_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockCafeRepository_ListCafes_Call) RunAndReturn(run func(context.Context) ([]*model.Cafe, error)) *MockCafeRepository_ListCafes_Call {
+func (_c *MockCafeRepository_ListCafes_Call) RunAndReturn(run func(context.Context) ([]model.Cafe, error)) *MockCafeRepository_ListCafes_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // UpdateCafe provides a mock function with given fields: _a0, _a1
-func (_m *MockCafeRepository) UpdateCafe(_a0 context.Context, _a1 *model.Cafe) (*model.Cafe, error) {
+func (_m *MockCafeRepository) UpdateCafe(_a0 context.Context, _a1 model.Cafe) (model.Cafe, error) {
 	ret := _m.Called(_a0, _a1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpdateCafe")
 	}
 
-	var r0 *model.Cafe
+	var r0 model.Cafe
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *model.Cafe) (*model.Cafe, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.Cafe) (model.Cafe, error)); ok {
 		return rf(_a0, _a1)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, *model.Cafe) *model.Cafe); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.Cafe) model.Cafe); ok {
 		r0 = rf(_a0, _a1)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Cafe)
-		}
+		r0 = ret.Get(0).(model.Cafe)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *model.Cafe) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, model.Cafe) error); ok {
 		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
@@ -282,24 +276,24 @@ type MockCafeRepository_UpdateCafe_Call struct {
 
 // UpdateCafe is a helper method to define mock.On call
 //   - _a0 context.Context
-//   - _a1 *model.Cafe
+//   - _a1 model.Cafe
 func (_e *MockCafeRepository_Expecter) UpdateCafe(_a0 interface{}, _a1 interface{}) *MockCafeRepository_UpdateCafe_Call {
 	return &MockCafeRepository_UpdateCafe_Call{Call: _e.mock.On("UpdateCafe", _a0, _a1)}
 }
 
-func (_c *MockCafeRepository_UpdateCafe_Call) Run(run func(_a0 context.Context, _a1 *model.Cafe)) *MockCafeRepository_UpdateCafe_Call {
+func (_c *MockCafeRepository_UpdateCafe_Call) Run(run func(_a0 context.Context, _a1 model.Cafe)) *MockCafeRepository_UpdateCafe_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(*model.Cafe))
+		run(args[0].(context.Context), args[1].(model.Cafe))
 	})
 	return _c
 }
 
-func (_c *MockCafeRepository_UpdateCafe_Call) Return(updated *model.Cafe, err error) *MockCafeRepository_UpdateCafe_Call {
+func (_c *MockCafeRepository_UpdateCafe_Call) Return(updated model.Cafe, err error) *MockCafeRepository_UpdateCafe_Call {
 	_c.Call.Return(updated, err)
 	return _c
 }
 
-func (_c *MockCafeRepository_UpdateCafe_Call) RunAndReturn(run func(context.Context, *model.Cafe) (*model.Cafe, error)) *MockCafeRepository_UpdateCafe_Call {
+func (_c *MockCafeRepository_UpdateCafe_Call) RunAndReturn(run func(context.Context, model.Cafe) (model.Cafe, error)) *MockCafeRepository_UpdateCafe_Call {
 	_c.Call.Return(run)
 	return _c
 }

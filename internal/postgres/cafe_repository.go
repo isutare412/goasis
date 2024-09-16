@@ -21,28 +21,24 @@ func NewCafeRepository(client *Client) *CafeRepository {
 	}
 }
 
-func (r *CafeRepository) CreateCafe(ctx context.Context, cafe *model.Cafe) (created *model.Cafe, err error) {
+func (r *CafeRepository) CreateCafe(ctx context.Context, cafe model.Cafe) (created model.Cafe, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	cafeCreated := new(model.Cafe)
-	*cafeCreated = *cafe
-	if err := db.Create(cafeCreated).Error; err != nil {
-		return nil, err
+	if err := db.Create(&cafe).Error; err != nil {
+		return model.Cafe{}, err
 	}
 
-	return cafeCreated, nil
+	return cafe, nil
 }
 
-func (r *CafeRepository) UpdateCafe(ctx context.Context, cafe *model.Cafe) (updated *model.Cafe, err error) {
+func (r *CafeRepository) UpdateCafe(ctx context.Context, cafe model.Cafe) (updated model.Cafe, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	cafeUpdated := new(model.Cafe)
-	*cafeUpdated = *cafe
-	if err := db.Save(cafeUpdated).Error; err != nil {
-		return nil, err
+	if err := db.Save(&cafe).Error; err != nil {
+		return model.Cafe{}, err
 	}
 
-	return cafeUpdated, nil
+	return cafe, nil
 }
 
 func (r *CafeRepository) DeleteCafe(ctx context.Context, id int64) error {
@@ -54,29 +50,29 @@ func (r *CafeRepository) DeleteCafe(ctx context.Context, id int64) error {
 	return nil
 }
 
-func (r *CafeRepository) GetCafe(ctx context.Context, id int64) (*model.Cafe, error) {
+func (r *CafeRepository) GetCafe(ctx context.Context, id int64) (model.Cafe, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	cafe := new(model.Cafe)
-	err := db.First(cafe, id).Error
+	var cafe model.Cafe
+	err := db.First(&cafe, id).Error
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
-		return nil, pkgerr.CodeError{
+		return model.Cafe{}, pkgerr.CodeError{
 			Code:      pkgerr.CodeNotFound,
 			Err:       err,
 			ClientMsg: fmt.Sprintf("cafe with id %d not found", id),
 		}
 	case err != nil:
-		return nil, err
+		return model.Cafe{}, err
 	}
 
 	return cafe, nil
 }
 
-func (r *CafeRepository) ListCafes(ctx context.Context) ([]*model.Cafe, error) {
+func (r *CafeRepository) ListCafes(ctx context.Context) ([]model.Cafe, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	var cafes []*model.Cafe
+	var cafes []model.Cafe
 	err := db.
 		Order("id").
 		Find(&cafes).Error

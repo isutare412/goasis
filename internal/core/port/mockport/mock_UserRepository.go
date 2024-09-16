@@ -23,27 +23,25 @@ func (_m *MockUserRepository) EXPECT() *MockUserRepository_Expecter {
 }
 
 // CreateUser provides a mock function with given fields: _a0, _a1
-func (_m *MockUserRepository) CreateUser(_a0 context.Context, _a1 *model.User) (*model.User, error) {
+func (_m *MockUserRepository) CreateUser(_a0 context.Context, _a1 model.User) (model.User, error) {
 	ret := _m.Called(_a0, _a1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for CreateUser")
 	}
 
-	var r0 *model.User
+	var r0 model.User
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *model.User) (*model.User, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.User) (model.User, error)); ok {
 		return rf(_a0, _a1)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, *model.User) *model.User); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.User) model.User); ok {
 		r0 = rf(_a0, _a1)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.User)
-		}
+		r0 = ret.Get(0).(model.User)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *model.User) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, model.User) error); ok {
 		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
@@ -59,24 +57,24 @@ type MockUserRepository_CreateUser_Call struct {
 
 // CreateUser is a helper method to define mock.On call
 //   - _a0 context.Context
-//   - _a1 *model.User
+//   - _a1 model.User
 func (_e *MockUserRepository_Expecter) CreateUser(_a0 interface{}, _a1 interface{}) *MockUserRepository_CreateUser_Call {
 	return &MockUserRepository_CreateUser_Call{Call: _e.mock.On("CreateUser", _a0, _a1)}
 }
 
-func (_c *MockUserRepository_CreateUser_Call) Run(run func(_a0 context.Context, _a1 *model.User)) *MockUserRepository_CreateUser_Call {
+func (_c *MockUserRepository_CreateUser_Call) Run(run func(_a0 context.Context, _a1 model.User)) *MockUserRepository_CreateUser_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(*model.User))
+		run(args[0].(context.Context), args[1].(model.User))
 	})
 	return _c
 }
 
-func (_c *MockUserRepository_CreateUser_Call) Return(created *model.User, err error) *MockUserRepository_CreateUser_Call {
+func (_c *MockUserRepository_CreateUser_Call) Return(created model.User, err error) *MockUserRepository_CreateUser_Call {
 	_c.Call.Return(created, err)
 	return _c
 }
 
-func (_c *MockUserRepository_CreateUser_Call) RunAndReturn(run func(context.Context, *model.User) (*model.User, error)) *MockUserRepository_CreateUser_Call {
+func (_c *MockUserRepository_CreateUser_Call) RunAndReturn(run func(context.Context, model.User) (model.User, error)) *MockUserRepository_CreateUser_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -129,24 +127,22 @@ func (_c *MockUserRepository_DeleteUser_Call) RunAndReturn(run func(context.Cont
 }
 
 // GetUser provides a mock function with given fields: ctx, id
-func (_m *MockUserRepository) GetUser(ctx context.Context, id int64) (*model.User, error) {
+func (_m *MockUserRepository) GetUser(ctx context.Context, id int64) (model.User, error) {
 	ret := _m.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetUser")
 	}
 
-	var r0 *model.User
+	var r0 model.User
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) (*model.User, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) (model.User, error)); ok {
 		return rf(ctx, id)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) *model.User); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) model.User); ok {
 		r0 = rf(ctx, id)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.User)
-		}
+		r0 = ret.Get(0).(model.User)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
@@ -177,38 +173,36 @@ func (_c *MockUserRepository_GetUser_Call) Run(run func(ctx context.Context, id 
 	return _c
 }
 
-func (_c *MockUserRepository_GetUser_Call) Return(_a0 *model.User, _a1 error) *MockUserRepository_GetUser_Call {
+func (_c *MockUserRepository_GetUser_Call) Return(_a0 model.User, _a1 error) *MockUserRepository_GetUser_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockUserRepository_GetUser_Call) RunAndReturn(run func(context.Context, int64) (*model.User, error)) *MockUserRepository_GetUser_Call {
+func (_c *MockUserRepository_GetUser_Call) RunAndReturn(run func(context.Context, int64) (model.User, error)) *MockUserRepository_GetUser_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // UpdateUser provides a mock function with given fields: _a0, _a1
-func (_m *MockUserRepository) UpdateUser(_a0 context.Context, _a1 *model.User) (*model.User, error) {
+func (_m *MockUserRepository) UpdateUser(_a0 context.Context, _a1 model.User) (model.User, error) {
 	ret := _m.Called(_a0, _a1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpdateUser")
 	}
 
-	var r0 *model.User
+	var r0 model.User
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *model.User) (*model.User, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.User) (model.User, error)); ok {
 		return rf(_a0, _a1)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, *model.User) *model.User); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.User) model.User); ok {
 		r0 = rf(_a0, _a1)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.User)
-		}
+		r0 = ret.Get(0).(model.User)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *model.User) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, model.User) error); ok {
 		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
@@ -224,24 +218,24 @@ type MockUserRepository_UpdateUser_Call struct {
 
 // UpdateUser is a helper method to define mock.On call
 //   - _a0 context.Context
-//   - _a1 *model.User
+//   - _a1 model.User
 func (_e *MockUserRepository_Expecter) UpdateUser(_a0 interface{}, _a1 interface{}) *MockUserRepository_UpdateUser_Call {
 	return &MockUserRepository_UpdateUser_Call{Call: _e.mock.On("UpdateUser", _a0, _a1)}
 }
 
-func (_c *MockUserRepository_UpdateUser_Call) Run(run func(_a0 context.Context, _a1 *model.User)) *MockUserRepository_UpdateUser_Call {
+func (_c *MockUserRepository_UpdateUser_Call) Run(run func(_a0 context.Context, _a1 model.User)) *MockUserRepository_UpdateUser_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(*model.User))
+		run(args[0].(context.Context), args[1].(model.User))
 	})
 	return _c
 }
 
-func (_c *MockUserRepository_UpdateUser_Call) Return(updated *model.User, err error) *MockUserRepository_UpdateUser_Call {
+func (_c *MockUserRepository_UpdateUser_Call) Return(updated model.User, err error) *MockUserRepository_UpdateUser_Call {
 	_c.Call.Return(updated, err)
 	return _c
 }
 
-func (_c *MockUserRepository_UpdateUser_Call) RunAndReturn(run func(context.Context, *model.User) (*model.User, error)) *MockUserRepository_UpdateUser_Call {
+func (_c *MockUserRepository_UpdateUser_Call) RunAndReturn(run func(context.Context, model.User) (model.User, error)) *MockUserRepository_UpdateUser_Call {
 	_c.Call.Return(run)
 	return _c
 }

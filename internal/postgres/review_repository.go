@@ -21,28 +21,24 @@ func NewReviewRepository(client *Client) *ReviewRepository {
 	}
 }
 
-func (r *ReviewRepository) CreateReview(ctx context.Context, review *model.Review) (created *model.Review, err error) {
+func (r *ReviewRepository) CreateReview(ctx context.Context, review model.Review) (created model.Review, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	reviewCreated := new(model.Review)
-	*reviewCreated = *review
-	if err := db.Create(reviewCreated).Error; err != nil {
-		return nil, err
+	if err := db.Create(&review).Error; err != nil {
+		return model.Review{}, err
 	}
 
-	return reviewCreated, nil
+	return review, nil
 }
 
-func (r *ReviewRepository) UpdateReview(ctx context.Context, review *model.Review) (updated *model.Review, err error) {
+func (r *ReviewRepository) UpdateReview(ctx context.Context, review model.Review) (updated model.Review, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	reviewUpdated := new(model.Review)
-	*reviewUpdated = *review
-	if err := db.Save(reviewUpdated).Error; err != nil {
-		return nil, err
+	if err := db.Save(&review).Error; err != nil {
+		return model.Review{}, err
 	}
 
-	return reviewUpdated, nil
+	return review, nil
 }
 
 func (r *ReviewRepository) DeleteReview(ctx context.Context, id int64) error {
@@ -54,51 +50,51 @@ func (r *ReviewRepository) DeleteReview(ctx context.Context, id int64) error {
 	return nil
 }
 
-func (r *ReviewRepository) GetReview(ctx context.Context, id int64) (*model.Review, error) {
+func (r *ReviewRepository) GetReview(ctx context.Context, id int64) (model.Review, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	review := new(model.Review)
+	var review model.Review
 	err := db.
-		First(review, id).Error
+		First(&review, id).Error
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
-		return nil, pkgerr.CodeError{
+		return model.Review{}, pkgerr.CodeError{
 			Code:      pkgerr.CodeNotFound,
 			Err:       err,
 			ClientMsg: fmt.Sprintf("review with id %d not found", id),
 		}
 	case err != nil:
-		return nil, err
+		return model.Review{}, err
 	}
 
 	return review, nil
 }
 
-func (r *ReviewRepository) GetReviewPreload(ctx context.Context, id int64) (*model.Review, error) {
+func (r *ReviewRepository) GetReviewPreload(ctx context.Context, id int64) (model.Review, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	review := new(model.Review)
+	var review model.Review
 	err := db.
 		Joins("User").
-		First(review, id).Error
+		First(&review, id).Error
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
-		return nil, pkgerr.CodeError{
+		return model.Review{}, pkgerr.CodeError{
 			Code:      pkgerr.CodeNotFound,
 			Err:       err,
 			ClientMsg: fmt.Sprintf("review with id %d not found", id),
 		}
 	case err != nil:
-		return nil, err
+		return model.Review{}, err
 	}
 
 	return review, nil
 }
 
-func (r *ReviewRepository) ListReviewsOfCafe(ctx context.Context, cafeID int64) ([]*model.Review, error) {
+func (r *ReviewRepository) ListReviewsOfCafe(ctx context.Context, cafeID int64) ([]model.Review, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	var reviews []*model.Review
+	var reviews []model.Review
 	err := db.
 		Where(&model.Review{
 			CafeID: cafeID,
@@ -112,10 +108,10 @@ func (r *ReviewRepository) ListReviewsOfCafe(ctx context.Context, cafeID int64) 
 	return reviews, nil
 }
 
-func (r *ReviewRepository) ListReviewsOfUser(ctx context.Context, userID int64) ([]*model.Review, error) {
+func (r *ReviewRepository) ListReviewsOfUser(ctx context.Context, userID int64) ([]model.Review, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	var reviews []*model.Review
+	var reviews []model.Review
 	err := db.
 		Where(&model.Review{
 			UserID: userID,

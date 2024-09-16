@@ -23,27 +23,25 @@ func (_m *MockReviewRepository) EXPECT() *MockReviewRepository_Expecter {
 }
 
 // CreateReview provides a mock function with given fields: _a0, _a1
-func (_m *MockReviewRepository) CreateReview(_a0 context.Context, _a1 *model.Review) (*model.Review, error) {
+func (_m *MockReviewRepository) CreateReview(_a0 context.Context, _a1 model.Review) (model.Review, error) {
 	ret := _m.Called(_a0, _a1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for CreateReview")
 	}
 
-	var r0 *model.Review
+	var r0 model.Review
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *model.Review) (*model.Review, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.Review) (model.Review, error)); ok {
 		return rf(_a0, _a1)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, *model.Review) *model.Review); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.Review) model.Review); ok {
 		r0 = rf(_a0, _a1)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Review)
-		}
+		r0 = ret.Get(0).(model.Review)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *model.Review) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, model.Review) error); ok {
 		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
@@ -59,24 +57,24 @@ type MockReviewRepository_CreateReview_Call struct {
 
 // CreateReview is a helper method to define mock.On call
 //   - _a0 context.Context
-//   - _a1 *model.Review
+//   - _a1 model.Review
 func (_e *MockReviewRepository_Expecter) CreateReview(_a0 interface{}, _a1 interface{}) *MockReviewRepository_CreateReview_Call {
 	return &MockReviewRepository_CreateReview_Call{Call: _e.mock.On("CreateReview", _a0, _a1)}
 }
 
-func (_c *MockReviewRepository_CreateReview_Call) Run(run func(_a0 context.Context, _a1 *model.Review)) *MockReviewRepository_CreateReview_Call {
+func (_c *MockReviewRepository_CreateReview_Call) Run(run func(_a0 context.Context, _a1 model.Review)) *MockReviewRepository_CreateReview_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(*model.Review))
+		run(args[0].(context.Context), args[1].(model.Review))
 	})
 	return _c
 }
 
-func (_c *MockReviewRepository_CreateReview_Call) Return(created *model.Review, err error) *MockReviewRepository_CreateReview_Call {
+func (_c *MockReviewRepository_CreateReview_Call) Return(created model.Review, err error) *MockReviewRepository_CreateReview_Call {
 	_c.Call.Return(created, err)
 	return _c
 }
 
-func (_c *MockReviewRepository_CreateReview_Call) RunAndReturn(run func(context.Context, *model.Review) (*model.Review, error)) *MockReviewRepository_CreateReview_Call {
+func (_c *MockReviewRepository_CreateReview_Call) RunAndReturn(run func(context.Context, model.Review) (model.Review, error)) *MockReviewRepository_CreateReview_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -129,24 +127,22 @@ func (_c *MockReviewRepository_DeleteReview_Call) RunAndReturn(run func(context.
 }
 
 // GetReview provides a mock function with given fields: ctx, id
-func (_m *MockReviewRepository) GetReview(ctx context.Context, id int64) (*model.Review, error) {
+func (_m *MockReviewRepository) GetReview(ctx context.Context, id int64) (model.Review, error) {
 	ret := _m.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetReview")
 	}
 
-	var r0 *model.Review
+	var r0 model.Review
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) (*model.Review, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) (model.Review, error)); ok {
 		return rf(ctx, id)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) *model.Review); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) model.Review); ok {
 		r0 = rf(ctx, id)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Review)
-		}
+		r0 = ret.Get(0).(model.Review)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
@@ -177,35 +173,33 @@ func (_c *MockReviewRepository_GetReview_Call) Run(run func(ctx context.Context,
 	return _c
 }
 
-func (_c *MockReviewRepository_GetReview_Call) Return(_a0 *model.Review, _a1 error) *MockReviewRepository_GetReview_Call {
+func (_c *MockReviewRepository_GetReview_Call) Return(_a0 model.Review, _a1 error) *MockReviewRepository_GetReview_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockReviewRepository_GetReview_Call) RunAndReturn(run func(context.Context, int64) (*model.Review, error)) *MockReviewRepository_GetReview_Call {
+func (_c *MockReviewRepository_GetReview_Call) RunAndReturn(run func(context.Context, int64) (model.Review, error)) *MockReviewRepository_GetReview_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // GetReviewPreload provides a mock function with given fields: ctx, id
-func (_m *MockReviewRepository) GetReviewPreload(ctx context.Context, id int64) (*model.Review, error) {
+func (_m *MockReviewRepository) GetReviewPreload(ctx context.Context, id int64) (model.Review, error) {
 	ret := _m.Called(ctx, id)
 
 	if len(ret) == 0 {
 		panic("no return value specified for GetReviewPreload")
 	}
 
-	var r0 *model.Review
+	var r0 model.Review
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) (*model.Review, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) (model.Review, error)); ok {
 		return rf(ctx, id)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) *model.Review); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) model.Review); ok {
 		r0 = rf(ctx, id)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Review)
-		}
+		r0 = ret.Get(0).(model.Review)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
@@ -236,34 +230,34 @@ func (_c *MockReviewRepository_GetReviewPreload_Call) Run(run func(ctx context.C
 	return _c
 }
 
-func (_c *MockReviewRepository_GetReviewPreload_Call) Return(_a0 *model.Review, _a1 error) *MockReviewRepository_GetReviewPreload_Call {
+func (_c *MockReviewRepository_GetReviewPreload_Call) Return(_a0 model.Review, _a1 error) *MockReviewRepository_GetReviewPreload_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockReviewRepository_GetReviewPreload_Call) RunAndReturn(run func(context.Context, int64) (*model.Review, error)) *MockReviewRepository_GetReviewPreload_Call {
+func (_c *MockReviewRepository_GetReviewPreload_Call) RunAndReturn(run func(context.Context, int64) (model.Review, error)) *MockReviewRepository_GetReviewPreload_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ListReviewsOfCafe provides a mock function with given fields: ctx, cafeID
-func (_m *MockReviewRepository) ListReviewsOfCafe(ctx context.Context, cafeID int64) ([]*model.Review, error) {
+func (_m *MockReviewRepository) ListReviewsOfCafe(ctx context.Context, cafeID int64) ([]model.Review, error) {
 	ret := _m.Called(ctx, cafeID)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ListReviewsOfCafe")
 	}
 
-	var r0 []*model.Review
+	var r0 []model.Review
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]*model.Review, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]model.Review, error)); ok {
 		return rf(ctx, cafeID)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) []*model.Review); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) []model.Review); ok {
 		r0 = rf(ctx, cafeID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]*model.Review)
+			r0 = ret.Get(0).([]model.Review)
 		}
 	}
 
@@ -295,34 +289,34 @@ func (_c *MockReviewRepository_ListReviewsOfCafe_Call) Run(run func(ctx context.
 	return _c
 }
 
-func (_c *MockReviewRepository_ListReviewsOfCafe_Call) Return(_a0 []*model.Review, _a1 error) *MockReviewRepository_ListReviewsOfCafe_Call {
+func (_c *MockReviewRepository_ListReviewsOfCafe_Call) Return(_a0 []model.Review, _a1 error) *MockReviewRepository_ListReviewsOfCafe_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockReviewRepository_ListReviewsOfCafe_Call) RunAndReturn(run func(context.Context, int64) ([]*model.Review, error)) *MockReviewRepository_ListReviewsOfCafe_Call {
+func (_c *MockReviewRepository_ListReviewsOfCafe_Call) RunAndReturn(run func(context.Context, int64) ([]model.Review, error)) *MockReviewRepository_ListReviewsOfCafe_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // ListReviewsOfUser provides a mock function with given fields: ctx, userID
-func (_m *MockReviewRepository) ListReviewsOfUser(ctx context.Context, userID int64) ([]*model.Review, error) {
+func (_m *MockReviewRepository) ListReviewsOfUser(ctx context.Context, userID int64) ([]model.Review, error) {
 	ret := _m.Called(ctx, userID)
 
 	if len(ret) == 0 {
 		panic("no return value specified for ListReviewsOfUser")
 	}
 
-	var r0 []*model.Review
+	var r0 []model.Review
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]*model.Review, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) ([]model.Review, error)); ok {
 		return rf(ctx, userID)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, int64) []*model.Review); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, int64) []model.Review); ok {
 		r0 = rf(ctx, userID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]*model.Review)
+			r0 = ret.Get(0).([]model.Review)
 		}
 	}
 
@@ -354,38 +348,36 @@ func (_c *MockReviewRepository_ListReviewsOfUser_Call) Run(run func(ctx context.
 	return _c
 }
 
-func (_c *MockReviewRepository_ListReviewsOfUser_Call) Return(_a0 []*model.Review, _a1 error) *MockReviewRepository_ListReviewsOfUser_Call {
+func (_c *MockReviewRepository_ListReviewsOfUser_Call) Return(_a0 []model.Review, _a1 error) *MockReviewRepository_ListReviewsOfUser_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockReviewRepository_ListReviewsOfUser_Call) RunAndReturn(run func(context.Context, int64) ([]*model.Review, error)) *MockReviewRepository_ListReviewsOfUser_Call {
+func (_c *MockReviewRepository_ListReviewsOfUser_Call) RunAndReturn(run func(context.Context, int64) ([]model.Review, error)) *MockReviewRepository_ListReviewsOfUser_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // UpdateReview provides a mock function with given fields: _a0, _a1
-func (_m *MockReviewRepository) UpdateReview(_a0 context.Context, _a1 *model.Review) (*model.Review, error) {
+func (_m *MockReviewRepository) UpdateReview(_a0 context.Context, _a1 model.Review) (model.Review, error) {
 	ret := _m.Called(_a0, _a1)
 
 	if len(ret) == 0 {
 		panic("no return value specified for UpdateReview")
 	}
 
-	var r0 *model.Review
+	var r0 model.Review
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *model.Review) (*model.Review, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.Review) (model.Review, error)); ok {
 		return rf(_a0, _a1)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, *model.Review) *model.Review); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, model.Review) model.Review); ok {
 		r0 = rf(_a0, _a1)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*model.Review)
-		}
+		r0 = ret.Get(0).(model.Review)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *model.Review) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, model.Review) error); ok {
 		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
@@ -401,24 +393,24 @@ type MockReviewRepository_UpdateReview_Call struct {
 
 // UpdateReview is a helper method to define mock.On call
 //   - _a0 context.Context
-//   - _a1 *model.Review
+//   - _a1 model.Review
 func (_e *MockReviewRepository_Expecter) UpdateReview(_a0 interface{}, _a1 interface{}) *MockReviewRepository_UpdateReview_Call {
 	return &MockReviewRepository_UpdateReview_Call{Call: _e.mock.On("UpdateReview", _a0, _a1)}
 }
 
-func (_c *MockReviewRepository_UpdateReview_Call) Run(run func(_a0 context.Context, _a1 *model.Review)) *MockReviewRepository_UpdateReview_Call {
+func (_c *MockReviewRepository_UpdateReview_Call) Run(run func(_a0 context.Context, _a1 model.Review)) *MockReviewRepository_UpdateReview_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(*model.Review))
+		run(args[0].(context.Context), args[1].(model.Review))
 	})
 	return _c
 }
 
-func (_c *MockReviewRepository_UpdateReview_Call) Return(updated *model.Review, err error) *MockReviewRepository_UpdateReview_Call {
+func (_c *MockReviewRepository_UpdateReview_Call) Return(updated model.Review, err error) *MockReviewRepository_UpdateReview_Call {
 	_c.Call.Return(updated, err)
 	return _c
 }
 
-func (_c *MockReviewRepository_UpdateReview_Call) RunAndReturn(run func(context.Context, *model.Review) (*model.Review, error)) *MockReviewRepository_UpdateReview_Call {
+func (_c *MockReviewRepository_UpdateReview_Call) RunAndReturn(run func(context.Context, model.Review) (model.Review, error)) *MockReviewRepository_UpdateReview_Call {
 	_c.Call.Return(run)
 	return _c
 }

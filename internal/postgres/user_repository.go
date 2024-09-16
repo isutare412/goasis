@@ -21,28 +21,24 @@ func NewUserRepository(client *Client) *UserRepository {
 	}
 }
 
-func (r *UserRepository) CreateUser(ctx context.Context, user *model.User) (created *model.User, err error) {
+func (r *UserRepository) CreateUser(ctx context.Context, user model.User) (created model.User, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	userCreated := new(model.User)
-	*userCreated = *user
-	if err := db.Create(userCreated).Error; err != nil {
-		return nil, err
+	if err := db.Create(&user).Error; err != nil {
+		return model.User{}, err
 	}
 
-	return userCreated, nil
+	return user, nil
 }
 
-func (r *UserRepository) UpdateUser(ctx context.Context, user *model.User) (updated *model.User, err error) {
+func (r *UserRepository) UpdateUser(ctx context.Context, user model.User) (updated model.User, err error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	userUpdated := new(model.User)
-	*userUpdated = *user
-	if err := db.Save(userUpdated).Error; err != nil {
-		return nil, err
+	if err := db.Save(&user).Error; err != nil {
+		return model.User{}, err
 	}
 
-	return userUpdated, nil
+	return user, nil
 }
 
 func (r *UserRepository) DeleteUser(ctx context.Context, id int64) error {
@@ -54,20 +50,20 @@ func (r *UserRepository) DeleteUser(ctx context.Context, id int64) error {
 	return nil
 }
 
-func (r *UserRepository) GetUser(ctx context.Context, id int64) (*model.User, error) {
+func (r *UserRepository) GetUser(ctx context.Context, id int64) (model.User, error) {
 	db := getTxOrDB(ctx, r.db).WithContext(ctx)
 
-	user := new(model.User)
+	var user model.User
 	err := db.First(&user, id).Error
 	switch {
 	case errors.Is(err, gorm.ErrRecordNotFound):
-		return nil, pkgerr.CodeError{
+		return model.User{}, pkgerr.CodeError{
 			Code:      pkgerr.CodeNotFound,
 			Err:       err,
 			ClientMsg: fmt.Sprintf("user with id %d not found", id),
 		}
 	case err != nil:
-		return nil, err
+		return model.User{}, err
 	}
 
 	return user, nil
