@@ -20,8 +20,8 @@ func responseError(w http.ResponseWriter, r *http.Request, err error) {
 		}
 	)
 
-	errRespBytes, err := json.Marshal(&errResp)
-	if err != nil {
+	errRespBytes, marshalErr := json.Marshal(&errResp)
+	if marshalErr != nil {
 		slog.ErrorContext(ctx, "failed to marshal error response", "error", err)
 		return
 	}
@@ -31,6 +31,13 @@ func responseError(w http.ResponseWriter, r *http.Request, err error) {
 	if _, err := w.Write(errRespBytes); err != nil {
 		slog.ErrorContext(ctx, "failed to write error response body", "error", err)
 		return
+	}
+
+	switch {
+	case errCode >= http.StatusInternalServerError:
+		slog.ErrorContext(ctx, "5xx error while http handling", "statusCode", errCode, "error", err)
+	case errCode >= http.StatusBadRequest:
+		slog.WarnContext(ctx, "4xx error while http handling", "statusCode", errCode, "error", err)
 	}
 }
 
